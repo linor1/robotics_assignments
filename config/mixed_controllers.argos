@@ -1,0 +1,143 @@
+<?xml version="1.0" ?>
+<argos-configuration>
+
+  <!-- ************************* -->
+  <!-- * General configuration * -->
+  <!-- ************************* -->
+  <framework>
+
+    <system threads="0" />
+
+    <experiment length="0" ticks_per_second="10" random_seed="124" />
+  </framework>
+
+  <!-- *************** -->
+  <!-- * Controllers * -->
+  <!-- *************** -->
+  <controllers>
+    <!-- CONTROLLER # 1 -->
+    <simple_demo_controller id="simple_demo" 
+                                  library="./build/controllers/simple_demo/libsimple_demo.so">
+
+      <actuators>
+        <differential_steering implementation="default" />
+        <leds implementation="default" medium="leds" />
+      </actuators>
+
+      <sensors>
+        <footbot_proximity implementation="default" show_rays="false" />
+        <footbot_light implementation="rot_z_only" show_rays="false" />
+        <footbot_imu implementation="rpy" />
+        <colored_blob_omnidirectional_camera implementation="rot_z_only" medium="leds" show_rays="true" />
+      </sensors>
+
+      <params alpha="7.5" delta="0.1" velocity="5" />
+    </simple_demo_controller>
+
+    <!-- CONTROLLER # 2 -->
+    <run_away_by_bumpers_controller id="run_away_by_bumpers"
+                                  library="./build/controllers/run_away_by_bumpers/librun_away_by_bumpers.so">
+      <actuators>
+        <differential_steering implementation="default" />
+        <leds implementation="default" medium="leds" />
+      </actuators>
+  
+      <sensors>
+        <footbot_proximity implementation="default" show_rays="false" />
+        <footbot_light implementation="rot_z_only" show_rays="false" />
+        <footbot_imu implementation="rpy" />
+        <colored_blob_omnidirectional_camera implementation="rot_z_only" medium="leds" show_rays="true" />
+      </sensors>
+    
+      <params alpha="7.5" delta="0.1" velocity="5" />
+    </run_away_by_bumpers_controller>
+
+  </controllers>
+
+
+  <arena size="3, 3, 1" center="0,0,0.5">
+
+    <!-- Place four boxes in a square to delimit the arena -->
+    <box id="wall_north" size="2,0.1,0.5" movable="false">
+      <body position="0,1,0" orientation="0,0,0" />
+    </box>
+    <box id="wall_south" size="2,0.1,0.5" movable="false">
+      <body position="0,-1,0" orientation="0,0,0" />
+    </box>
+    <box id="wall_east" size="0.1,2,0.5" movable="false">
+      <body position="1,0,0" orientation="0,0,0" />
+    </box>
+    <box id="wall_west" size="0.1,2,0.5" movable="false">
+      <body position="-1,0,0" orientation="0,0,0" />
+    </box>
+
+    <foot-bot id="krembot_0">
+      <body position="0,0,0" orientation="0,0,0" />
+      <controller config="simple_demo"/>
+    </foot-bot>
+
+    <foot-bot id="krembot_1">
+      <body position="0.5,0.5,0" orientation="0,0,0" />
+      <controller config="run_away_by_bumpers"/>
+    </foot-bot>
+
+    <foot-bot id="krembot_2">
+      <body position="-0.5,-0.5,0" orientation="0,0,0" />
+      <controller config="run_away_by_bumpers"/>
+    </foot-bot>
+
+  </arena>
+
+  <!-- ******************* -->
+  <!-- * Physics engines * -->
+  <!-- ******************* -->
+  <!--
+      In ARGoS, multiple physics engines can run at the same time.
+      In this section you say which engines to use for the experiment.
+      To know which engines are available, type at the command prompt:
+      
+      $ argos3 -q physics_engines
+  -->
+  <physics_engines>
+    <!--
+        Use a 2D dynamics engine.
+    -->
+    <dynamics2d id="dyn2d" />
+  </physics_engines>
+
+  <!-- ********* -->
+  <!-- * Media * -->
+  <!-- ********* -->
+  <!--
+      Here you specify the media in use. Media allow robots to communicate.
+      In this experiment, robots do not communicate, so no media are
+      specified.
+      To know which media are available, type at the command prompt:
+
+      $ argos3 -q media
+  -->
+
+  <media>
+    <led id="leds" />
+  </media>
+
+
+  <!-- ****************** -->
+  <!-- * Visualization * -->
+  <!-- ****************** -->
+  <!--
+      Here you specify which visualization to use.
+      You can also not specify a visualization at all, in which case ARGoS
+      will run without showing anything.
+      Having no visualization is useful when you run ARGoS in a batch of
+      experiments to collect statistics.
+      To know which visualizations are available, type at the command
+      prompt:
+
+      $ argos3 -q visualizations
+  -->
+  <visualization>
+    <qt-opengl />
+  </visualization>
+
+</argos-configuration>

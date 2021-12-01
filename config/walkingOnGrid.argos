@@ -1,0 +1,115 @@
+<?xml version="1.0" ?>
+
+<!-- *************************************************** -->
+<!-- * A fully commented XML is diffusion_1.xml. Refer * -->
+<!-- * to it to have full information about what       * -->
+<!-- * these options mean.                             * -->
+<!-- *************************************************** -->
+
+<argos-configuration>
+
+  <!-- ************************* -->
+  <!-- * General configuration * -->
+  <!-- ************************* -->
+  <framework>
+    <system threads="0" />
+    <experiment length="1260"
+                ticks_per_second="10"
+                random_seed="1" />
+  </framework>
+
+  <!-- *************** -->
+  <!-- * Controllers * -->
+  <!-- *************** -->
+  <controllers>
+
+    <walkingOnGrid_controller id="walkingOnGrid-krembot"
+                                  library="build/controllers/walkingOnGrid/libwalkingOnGrid.so">
+      <actuators>
+        <differential_steering implementation="default" />
+  <leds                  implementation="default" medium="leds" />
+      </actuators>
+      <!--
+          The <sensors> section contains a list of the sensors used by
+          this controller.
+          If you forget a to mention a sensor here and then request it in
+          the controller, an error occurs.
+          For a list of the possible sensors, type at the command prompt:
+          $ argos3 -q sensors
+      -->
+      <sensors>
+        <footbot_proximity implementation="default" show_rays="false" />
+        <footbot_light                       implementation="rot_z_only" show_rays="false" />
+  <footbot_imu                       implementation="rpy" />
+        <colored_blob_omnidirectional_camera implementation="rot_z_only" medium="leds" show_rays="true" />
+      </sensors>
+
+      <params alpha="7.5" delta="0.1" velocity="5" />
+    </walkingOnGrid_controller>
+
+
+  </controllers>
+
+  <!-- ****************** -->
+  <!-- * Loop functions * -->
+  <!-- ****************** -->
+  <loop_functions library="build/loop_functions/pos_and_map_loop_functions/libpos_and_map_loop_functions"
+                    label="pos_and_map_loop_functions">
+      <pos_and_map items="4"
+                radius="0.1"
+                energy_per_item="1000"
+                energy_per_walking_robot="1"
+                output="pos_and_map.txt" />
+    </loop_functions>
+
+  <!-- *********************** -->
+  <!-- * Arena configuration * -->
+  <!-- *********************** -->
+  <arena size="5.5, 5.5, 1" center="0,0,0.5">
+
+    <floor id="floor"
+           source="loop_functions"
+           pixels_per_meter="50" />
+
+    <foot-bot id="krembot_0">
+          <body position="1,1,0" orientation="180,0,0" />
+          <controller config="walkingOnGrid-krembot"/>
+    </foot-bot>
+
+
+  </arena>
+
+  <!-- ******************* -->
+  <!-- * Physics engines * -->
+  <!-- ******************* -->
+  <physics_engines>
+    <dynamics2d id="dyn2d" />
+  </physics_engines>
+
+  <!-- ********* -->
+  <!-- * Media * -->
+  <!-- ********* -->
+<media>
+    <led id="leds" />
+  </media>
+
+  <!-- ****************** -->
+  <!-- * Visualization * -->
+  <!-- ****************** -->
+  <visualization>
+    <qt-opengl  autoplay="false">
+      <user_functions library="build/loop_functions/pos_and_map_loop_functions/libpos_and_map_loop_functions"
+                            label="pos_and_map_trajectory_qtuser_functions" />
+      <camera>
+        <placements>
+          <placement index="0" position="0,0,8.14689" look_at="0,0,0" up="0.707,0,0.707" lens_focal_length="20" />
+          <placement index="1" position="0,0,8.14689" look_at="0,0,0" up="1,1,6" lens_focal_length="20" />
+          <placement index="2" position="0,0,8.14689" look_at="0,1,0" up="1,0,0" lens_focal_length="20" />
+          <placement index="3" position="0,0,8.14689" look_at="1,0,0" up="0,1,0" lens_focal_length="20" />
+          <placement index="4" position="0,0,8.14689" look_at="0,0,1" up="0,0,1" lens_focal_length="20" />
+        </placements>
+      </camera>
+    </qt-opengl>
+  </visualization>
+
+</argos-configuration>
