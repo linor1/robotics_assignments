@@ -26,6 +26,7 @@ public:
     ~walkingOnGrid_controller() = default;
     void setup();
     void loop();
+    void write_grid(std::string name, int** grid, int h, int w);
 
     void Init(TConfigurationNode &t_node) override {
         KrembotController::Init(t_node);
