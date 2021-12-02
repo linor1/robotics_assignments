@@ -1,7 +1,6 @@
 #include "krembot.ino.h"
 #include <cstdio>
 #include <fstream>
-using namespace std;
 
 float radius = 0.1;
 int col, row;
@@ -23,7 +22,7 @@ enum State
     turn
 } state = turn;
 
-void walkingOnGrid_controller::setup()
+void PRM_controller::setup()
 {
     krembot.setup();
     krembot.Led.write(0, 255, 0);
@@ -45,13 +44,13 @@ void walkingOnGrid_controller::setup()
         coarseGrid[i] = new int[width]; // col = width
 
 
-    walkingOnGrid_controller::write_grid("grid.txt", occupancyGrid, height, width);
-    walkingOnGrid_controller::thickening_grid(occupancyGrid, coarseGrid, height, width, relativeResolution);
-    walkingOnGrid_controller::write_grid("coarse_grid.txt", coarseGrid, height, width);
+    PRM_controller::write_grid("grid.txt", occupancyGrid, height, width);
+    PRM_controller::thickening_grid(occupancyGrid, coarseGrid, height, width, relativeResolution);
+    PRM_controller::write_grid("coarse_grid.txt", coarseGrid, height, width);
     std::cout << "setup done!" << std::endl;
 }
 
-void walkingOnGrid_controller::loop()
+void PRM_controller::loop()
 {
     krembot.loop();
 
@@ -59,7 +58,7 @@ void walkingOnGrid_controller::loop()
     degreeX = posMsg.degreeX;
 }
 
-void walkingOnGrid_controller::write_grid(std::string filename, int **grid, int h, int w)
+void PRM_controller::write_grid(std::string filename, int **grid, int h, int w)
 {
     std::ofstream fid;
     // File Open
@@ -77,7 +76,7 @@ void walkingOnGrid_controller::write_grid(std::string filename, int **grid, int 
     fid.close();
 }
 
-void walkingOnGrid_controller::thickening_grid(int **origGrid, int **newGrid, int height, int width, int resolution)
+void PRM_controller::thickening_grid(int **origGrid, int **newGrid, int height, int width, int resolution)
 {
     // by default: fill with 0 = free
     int filling_value = 0;
@@ -109,4 +108,31 @@ void walkingOnGrid_controller::thickening_grid(int **origGrid, int **newGrid, in
                     newGrid[i + kheight][j + kwidth] = filling_value;
         }
     }
+}
+
+static float random_float(float max) {
+    return static_cast<float>(rand()) / static_cast<float>(RAND_MAX / max);
+}
+
+void PRM_controller::generate_random_point(int width, int height, CVector2 *point, int **grid) {
+    float x = random_float(width);
+    float y = random_float(height);
+    while (is_point_occupied(x, y, grid, resolution) == 1) {
+        x = random_float(width);
+        y = random_float(height);
+    }
+    point->SetX(x);
+    point->SetY(y);
+    // return CVector2(x, y);
+}
+
+int PRM_controller::is_point_occupied(float x, float y, int **grid, Real resolution) {
+    float x_in_grid = (x - origin.GetX()) / resolution;
+    float y_in_grid = (y - origin.GetY()) / resolution;
+    return grid[(int)x_in_grid][(int)y_in_grid];
+}
+
+void PRM_controller::pos_to_grid(CVector2 pos, CVector2 *grid_pos, Real resolution) {
+    grid_pos->SetX((pos.GetX() - origin.GetX()) / resolution);
+    grid_pos->SetY((pos.GetY() - origin.GetY()) / resolution);
 }

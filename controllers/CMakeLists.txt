@@ -10,5 +10,5 @@ add_subdirectory(sand_timer_test)
 add_subdirectory(test_program)
 add_subdirectory(simple_test)
 add_subdirectory(ex2)
-add_subdirectory(walkingOnGrid)
+add_subdirectory(PRM)
 

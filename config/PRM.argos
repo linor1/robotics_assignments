@@ -23,8 +23,8 @@
   <!-- *************** -->
   <controllers>
 
-    <walkingOnGrid_controller id="walkingOnGrid-krembot"
-                                  library="build/controllers/walkingOnGrid/libwalkingOnGrid.so">
+    <PRM_controller id="PRM-krembot"
+                                  library="build/controllers/PRM/libPRM.so">
       <actuators>
         <differential_steering implementation="default" />
   <leds                  implementation="default" medium="leds" />
@@ -45,7 +45,7 @@
       </sensors>
 
       <params alpha="7.5" delta="0.1" velocity="5" />
-    </walkingOnGrid_controller>
+    </PRM_controller>
 
 
   </controllers>
@@ -73,7 +73,7 @@
 
     <foot-bot id="krembot_0">
           <body position="1,1,0" orientation="180,0,0" />
-          <controller config="walkingOnGrid-krembot"/>
+          <controller config="PRM-krembot"/>
     </foot-bot>
 
 

@@ -14,7 +14,7 @@ struct PosMsg{
 };
 
 
-class walkingOnGrid_controller : public KrembotController {
+class PRM_controller : public KrembotController {
 private:
     Real robotSize = 0.20;
     bool isFirst = true;
@@ -23,11 +23,14 @@ public:
     PosMsg posMsg;
 
     ParticleObserver Particle;
-    ~walkingOnGrid_controller() = default;
+    ~PRM_controller() = default;
     void setup();
     void loop();
     void write_grid(std::string name, int** grid, int h, int w);
     void thickening_grid(int** origGrid, int** newGrid, int height, int width, int resolution);
+    void generate_random_point(int width, int height, CVector2 *point, int **grid);
+    int is_point_occupied(float x, float y, int **grid, Real resolution);
+    void pos_to_grid(CVector2 pos, CVector2 *grid_pos, Real resolution);
 
     void Init(TConfigurationNode &t_node) override {
         KrembotController::Init(t_node);
@@ -46,4 +49,4 @@ public:
 };
 
 
-REGISTER_CONTROLLER(walkingOnGrid_controller, "walkingOnGrid_controller")
+REGISTER_CONTROLLER(PRM_controller, "PRM_controller")

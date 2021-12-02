@@ -9,7 +9,7 @@
 #include <Krembot/controller/krembot_controller.h>
 //#include <argos3/core/simulator/entity/composable_entity.h>
 //#include "Krembot/krembot.h"
-#include <controllers/walkingOnGrid/krembot.ino.cpp>
+#include <controllers/PRM/krembot.ino.cpp>
 
 
 /*
@@ -189,7 +189,7 @@ void CPosAndMapLoopFunctions::PreStep() {
 
         /* Get handle to foot-bot entity and controller */
         CFootBotEntity& cFootBot = *any_cast<CFootBotEntity*>(it->second);
-        walkingOnGrid_controller& cController = dynamic_cast<walkingOnGrid_controller&>(cFootBot.GetControllableEntity().GetController());
+        PRM_controller& cController = dynamic_cast<PRM_controller&>(cFootBot.GetControllableEntity().GetController());
 
         /* Get the position of the foot-bot on the ground as a CVector2 */
         if(isFirst)

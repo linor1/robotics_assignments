@@ -1,7 +1,7 @@
 set (CMAKE_CXX_STANDARD 11)
 
 #todo user: rename program
-set(PROGRAM_NAME "walkingOnGrid")
+set(PROGRAM_NAME "PRM")
 
 add_definitions(
         -DCONTROLLER_NAME=${PROGRAM_NAME}_controller
