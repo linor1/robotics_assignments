@@ -27,6 +27,7 @@ public:
     void setup();
     void loop();
     void write_grid(std::string name, int** grid, int h, int w);
+    void thickening_grid(int** origGrid, int** newGrid, int height, int width, int resolution);
 
     void Init(TConfigurationNode &t_node) override {
         KrembotController::Init(t_node);
