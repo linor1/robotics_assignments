@@ -51,7 +51,7 @@
     -->
     <!-- user todo: change controller path and id -->
     <run_away_by_bumpers_controller id="run_away_by_bumpers"
-                                  library="./build/controllers/run_away_by_bumpers/librun_away_by_bumpers.so">
+                                  library="/home/einat/robotics/tests/krembot_ws/build/controllers/run_away_by_bumpers/librun_away_by_bumpers.so">
       <!--                                 
           The <actuators> section contains a list of the actuators used by
           this controller.
@@ -208,8 +208,8 @@
 
       $ argos3 -q visualizations
   -->
-  <visualization>
+  <!-- <visualization>
     <qt-opengl />
-  </visualization>
+  </visualization> -->
 
 </argos-configuration>

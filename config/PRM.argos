@@ -24,7 +24,7 @@
   <controllers>
 
     <PRM_controller id="PRM-krembot"
-                                  library="build/controllers/PRM/libPRM.so">
+                                  library="/home/einat/robotics/tests/krembot_ws/build/controllers/PRM/libPRM.so">
       <actuators>
         <differential_steering implementation="default" />
   <leds                  implementation="default" medium="leds" />
@@ -53,7 +53,7 @@
   <!-- ****************** -->
   <!-- * Loop functions * -->
   <!-- ****************** -->
-  <loop_functions library="build/loop_functions/pos_and_map_loop_functions/libpos_and_map_loop_functions"
+  <loop_functions library="/home/einat/robotics/tests/krembot_ws/build/loop_functions/pos_and_map_loop_functions/libpos_and_map_loop_functions"
                     label="pos_and_map_loop_functions">
       <pos_and_map items="4"
                 radius="0.1"
@@ -96,7 +96,7 @@
   <!-- ****************** -->
   <!-- * Visualization * -->
   <!-- ****************** -->
-  <visualization>
+  <!-- <visualization>
     <qt-opengl  autoplay="false">
       <user_functions library="build/loop_functions/pos_and_map_loop_functions/libpos_and_map_loop_functions"
                             label="pos_and_map_trajectory_qtuser_functions" />
@@ -110,6 +110,6 @@
         </placements>
       </camera>
     </qt-opengl>
-  </visualization>
+  </visualization> -->
 
 </argos-configuration>

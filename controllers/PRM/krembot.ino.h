@@ -1,5 +1,7 @@
 #include <Krembot/controller/krembot_controller.h>
 #include <queue>
+#include <map>
+#include <tuple>
 
 struct MapMsg{
     int ** occupancyGrid;
@@ -26,11 +28,14 @@ public:
     ~PRM_controller() = default;
     void setup();
     void loop();
-    void write_grid(std::string name, int** grid, int h, int w);
-    void thickening_grid(int** origGrid, int** newGrid, int height, int width, int resolution);
-    void generate_random_point(int width, int height, CVector2 *point, int **grid);
+    void write_grid(std::string filename, int **grid, int height, int width);
+    void thickening_grid(int **origGrid, int **newGrid, int height, int width, Real resolution);
+    void generate_random_point(int width, int height, int **grid, Real resolution, std::pair<float,float> &oPair);
     int is_point_occupied(float x, float y, int **grid, Real resolution);
     void pos_to_grid(CVector2 pos, CVector2 *grid_pos, Real resolution);
+    void fill_milestones_set(std::map<std::pair<float, float>,CVector2>* milestones,
+                                int height, int width, int nmilestones, int** grid, Real resolution);
+    void write_grid_with_milestones(std::string filename, int **grid, int height, int width);
 
     void Init(TConfigurationNode &t_node) override {
         KrembotController::Init(t_node);
