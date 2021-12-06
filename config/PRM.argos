@@ -53,7 +53,7 @@
   <!-- ****************** -->
   <!-- * Loop functions * -->
   <!-- ****************** -->
-  <loop_functions library="/home/einat/robotics/tests/krembot_ws/build/loop_functions/pos_and_map_loop_functions/libpos_and_map_loop_functions"
+  <loop_functions library="/home/einat/robotics/tests/krembot_ws/build/loop_functions/pos_and_map_loop_functions/libpos_and_map_loop_functions.so"
                     label="pos_and_map_loop_functions">
       <pos_and_map items="4"
                 radius="0.1"

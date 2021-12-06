@@ -11,4 +11,5 @@ add_subdirectory(test_program)
 add_subdirectory(simple_test)
 add_subdirectory(ex2)
 add_subdirectory(PRM)
+add_subdirectory(walkingOnGrid)
 

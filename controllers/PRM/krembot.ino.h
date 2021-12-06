@@ -31,14 +31,17 @@ public:
     ~PRM_controller() = default;
     void setup();
     void loop();
+
+    // I added the following methods:
+    int is_point_occupied(float x, float y, int **grid);
+    bool is_path_clear(CVector2 x, CVector2 y, int **grid);
     void write_grid(std::string filename, int **grid, int height, int width);
     void thickening_grid(int **origGrid, int **newGrid, int height, int width, Real resolution);
     void generate_random_point(int width, int height, int **grid, std::pair<float, float> &oPair);
-    int is_point_occupied(float x, float y, int **grid);
-    void pos_to_grid(CVector2 pos, CVector2 *grid_pos, Real resolution);
     void fill_milestones_set(std::map<std::pair<float, float>, CVector2> *milestones,
                              int height, int width, int nmilestones, int **grid);
     void write_grid_with_milestones(std::string filename, int **grid, int height, int width);
+    // from here and on those are methods which were already written
 
     void Init(TConfigurationNode &t_node) override
     {
