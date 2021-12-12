@@ -59,6 +59,47 @@ void PRM_controller::setup()
     for (it_out = milestones.begin(); it_out != milestones.end(); it_out++)
         for (it_in = milestones.begin(); it_in != milestones.end(); it_in++)
             std::cout << it_out->second << ", " << it_in->second << ": " << is_path_clear(it_out->second, it_in->second, coarseGrid) << std::endl;
+        
+    int i = 0;
+    std::pair<float, float> new_key;
+    Graph g(NMILESTONES);
+    KdNodeVector nodes;
+    std::vector<std::vector<float>> points(2);
+    while (i < NMILESTONES) // fill map until it has NMILESTONES elements
+    {
+        //random point
+        generate_random_point(100, 100 ,new_key);
+        // insert new_key to k-d-tree
+        std::vector<float> point(2);
+        point[0]=new_key.first;
+        point[1]=new_key.second;
+        int_to_nodes_map[i] = point;
+        //print_float_vector(new_keys_map[i]);
+        //print("here");
+        points.insert(points.end(),point);
+        nodes.push_back(KdNode(point));
+        i++;
+    }
+    KdTree tree(&nodes);
+    cout << "Points in kd-tree:\n  ";
+    print_nodes(tree.allnodes);
+    KdNodeVector result;
+    for(int l=0;l<NMILESTONES;l++){
+        tree.k_nearest_neighbors(int_to_nodes_map[l], 4, &result);
+        for(int b=0;b<3;b++){
+            //todo: If there is an obstacle between the 2 vertices, do not insert the edge.
+            g.addEdge(source(int_to_nodes_map,points,l),
+                      destination(int_to_nodes_map,result,b));
+        }
+    }
+    //example
+    g.addEdge(0,1);
+    g.addEdge(1,2);
+    g.addEdge(2,4);
+    g.addEdge(4,6);
+    g.addEdge(6,7);
+    g.addEdge(7,8);
+    g.BFS(int_to_nodes_map, 0,6);
 
     std::cout << "setup done! set size: " << milestones.size() << std::endl;
 }
@@ -244,4 +285,41 @@ bool PRM_controller::is_path_clear(CVector2 startpoint, CVector2 endpoint, int *
     if (((end_x != mid_x) || (end_y != mid_y)) && (flag == true))
         flag = flag && is_path_clear(midpoint, endpoint, grid);
     return flag;
+}
+int PRM_controller::source(map<int,vector<float>> new_keys_map,vector<vector<float>>points, int l)
+{
+    for(auto it = new_keys_map.begin(); it != new_keys_map.end(); ++it){
+        if (it->second == points[l])
+            return it->first;
+    }
+    return -1;
+}
+int PRM_controller::destination(map<int,vector<float>> new_keys_map, KdNodeVector result,int b)
+{
+    for(auto it = new_keys_map.begin(); it != new_keys_map.end(); ++it){
+        if (it->second == result[b].point)
+            return it->first;
+    }
+    return -1;
+}
+void PRM_controller::print_float_vector(vector<float> const &vec)
+{
+     for (int i = 0; i < vec.size(); i++) {
+        std::cout << vec.at(i) << ' ';
+    }
+}
+void PRM_controller::print_nodes(const KdNodeVector &nodes) {
+    size_t i,j;
+    for (i = 0; i < nodes.size(); ++i) {
+        if (i > 0)
+            cout << " ";
+        cout << "(";
+        for (j = 0; j < nodes[i].point.size(); j++) {
+            if (j > 0)
+                cout << ",";
+            cout << nodes[i].point[j];
+        }
+        cout << ")";
+    }
+    cout << endl;
 }

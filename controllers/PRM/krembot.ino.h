@@ -26,6 +26,8 @@ private:
 public:
     MapMsg mapMsg;
     PosMsg posMsg;
+    static map<int,vector<float>> int_to_nodes_map;
+    static map<int,vector<float>> nodes_to_int_map;
 
     ParticleObserver Particle;
     ~PRM_controller() = default;
@@ -41,6 +43,10 @@ public:
     void fill_milestones_set(std::map<std::pair<float, float>, CVector2> *milestones,
                              int height, int width, int nmilestones, int **grid);
     void write_grid_with_milestones(std::string filename, int **grid, int height, int width);
+    void print_float_vector(vector<float> const &vec);
+    void print_nodes(const KdNodeVector &nodes);
+    int source(map<int,vector<float>> new_keys_map,vector<vector<float>>points, int l);
+    int destination(map<int,vector<float>> new_keys_map, KdNodeVector result,int b);
     // from here and on those are methods which were already written
 
     void Init(TConfigurationNode &t_node) override
